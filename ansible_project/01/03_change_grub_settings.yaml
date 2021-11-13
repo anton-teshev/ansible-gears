@@ -1,0 +1,29 @@
+---
+- name: Change grub settings 
+  hosts: all
+  become: yes
+
+  tasks: 
+    - name: Check string in grub defaults
+      shell: grep biosdevname=0 /etc/default/grub
+      register: bios_network
+      ignore_errors: true
+
+    - name: Debug Check
+      debug:
+        msg: No need to change grub defaults. Check has found legacy network naming
+      when: bios_network.stdout != ""
+
+    - name: Replace string in grub defaults
+      lineinfile:
+        dest: /etc/default/grub
+        regexp: '(^GRUB_CMDLINE_LINUX.*)"'
+        line: '\1 biosdevname=0 net.ifnames=0"'
+        backrefs: yes
+      when: bios_network.stdout == ""
+      notify: make_grub_config
+
+  handlers:
+    - name: make_grub_config
+      shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+
