@@ -1,0 +1,5 @@
+---
+# vars file for httpserv
+os_flavor: linux
+
+

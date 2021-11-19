@@ -1,0 +1,16 @@
+---
+# handlers file for httpserv
+
+
+- name: http_start_enable
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: http_restart
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+

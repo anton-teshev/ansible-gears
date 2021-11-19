@@ -1,0 +1,40 @@
+- name: Install httpd
+  yum:
+    name: httpd
+    state: present
+  register: result_install
+  notify: http_restart
+
+- block: 
+  - name: Start firewall
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
+    register: result_firewall
+
+  - name: Open firewall http and https ports
+    firewalld:
+      service: "{{ item }}"
+      permanent: yes
+      state: enabled
+      immediate: yes
+    loop:
+      - http
+      - https
+    register: configure_firewall
+
+  when: result_install is success
+
+- name: Copy index.html template
+  template:
+    src: index.html_{{ ansible_os_family }}.j2
+    dest: /var/www/html/index.html
+    owner: apache
+    group: apache
+    mode: '0644'
+    force: no
+  when: (result_firewall is success) and (configure_firewall is success)
+  notify: http_restart
+
+
