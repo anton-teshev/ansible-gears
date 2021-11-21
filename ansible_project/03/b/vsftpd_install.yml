@@ -1,0 +1,9 @@
+- name: Install and configure Vsftpd
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: install and configure vsftpd using role
+      import_role: 
+        name: vsftpserv
+

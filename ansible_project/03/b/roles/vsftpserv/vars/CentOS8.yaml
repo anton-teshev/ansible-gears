@@ -1,0 +1,4 @@
+install_packages: 
+  - vsftpd
+  - policycoreutils-python-utils
+
