@@ -1,8 +1,0 @@
-
-- name: semanage
-  script: 
-    cmd: change_selinux.sh
-    chdir: /root
-    creates: /root/selinux_configured
-  notify: vsftpd_restart
-
