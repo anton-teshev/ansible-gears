@@ -1,0 +1,11 @@
+
+  - name: Open firewall ports for vsftpd
+    firewalld:
+      port: "{{ item }}"
+      permanent: yes
+      state: enabled
+      immediate: yes
+    loop:
+      - 21/tcp
+      - 10000-10100/tcp
+

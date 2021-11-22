@@ -1,0 +1,9 @@
+---
+# tasks file for vsftpserv
+
+- include_tasks: install.yaml
+- import_tasks: configure.yaml
+- import_tasks: open_firewall.yaml
+- import_tasks: selinux.yaml
+
+

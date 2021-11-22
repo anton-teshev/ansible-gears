@@ -1,0 +1,14 @@
+- name: include
+  include_vars: "{{ansible_distribution}}{{ansible_distribution_major_version}}.yaml"
+
+- name: Install vsftpd and semanage
+  package: 
+    name: "{{ install_packages }}"
+    state: latest
+
+- name: Enable vsftpd
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes
+
